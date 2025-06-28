@@ -1,0 +1,22 @@
+# Node.js
+Backend/node_modules/
+Backend/.env
+
+# React/Vite/ (frontend)
+Frontend/node_modules/
+Frontend/.env
+Frontend/dist/
+Frontend/.next/
+Frontend/build/
+
+# General
+.DS_Store
+*.log
+.env
+
+# Docker
+*.local
+docker-compose.override.yml
+Dockerfile
+.env
+
