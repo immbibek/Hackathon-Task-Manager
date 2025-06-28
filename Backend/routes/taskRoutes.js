@@ -1,5 +1,6 @@
+// taskRoutes.js
 import express from "express";
-import { authenticateJWT } from "../middleware/authMiddleware.js";
+import { protect } from "../middleware/auth.js"; // ✅ CORRECT IMPORT
 import {
   createTask,
   getTasks,
@@ -10,7 +11,7 @@ import {
 
 const router = express.Router();
 
-router.use(authenticateJWT); // 👈 Protect all routes below
+router.use(protect); // ✅ Apply correct middleware to all routes
 
 router.post("/", createTask);
 router.get("/", getTasks);
