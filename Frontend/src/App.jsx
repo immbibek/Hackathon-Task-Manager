@@ -1,10 +1,28 @@
-import "./App.css";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import OAuthSuccess from "./pages/OAuthSuccess";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import { useAuth } from "./context/AuthContext";
 
 const App = () => {
+  const { token } = useAuth();
+
   return (
-    <div className=" bg-amber-50">
-      <h1 className=" text-amber-200">Hello Wolrd</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/oauth-success" element={<OAuthSuccess />} />
+        <Route
+          path="/"
+          element={token ? <Dashboard /> : <Navigate to="/login" />}
+        />
+      </Routes>
+    </Router>
   );
 };
 
