@@ -1,5 +1,8 @@
 import Task from "../models/Task.js";
+import User from "../models/User.js";
+import { io } from "../index.js";
 
+// Get all tasks
 export const getTasks = async (req, res) => {
   const tasks = await Task.find({ 
     $or: [
@@ -11,13 +14,17 @@ export const getTasks = async (req, res) => {
   res.json(tasks);
 };
 
+// Create a task
 export const createTask = async (req, res) => {
   const task = new Task({ ...req.body, owner: req.user.id });
   await task.save();
+
+  io.emit("task:created", task); // 🔔 Notify all clients
+
   res.status(201).json(task);
 };
 
-// Update task
+// Update a task
 export const updateTask = async (req, res) => {
   const task = await Task.findById(req.params.id);
 
@@ -32,10 +39,13 @@ export const updateTask = async (req, res) => {
 
   Object.assign(task, req.body);
   await task.save();
+
+  io.emit("task:updated", task); // 🔔 Notify all clients
+
   res.json(task);
 };
 
-// Delete task
+// Delete a task
 export const deleteTask = async (req, res) => {
   const task = await Task.findById(req.params.id);
 
@@ -45,14 +55,15 @@ export const deleteTask = async (req, res) => {
     return res.status(403).json({ message: "Only the owner can delete the task" });
   }
 
+  const taskId = task._id;
   await task.deleteOne();
+
+  io.emit("task:deleted", taskId); // 🔔 Notify all clients
+
   res.json({ message: "Task deleted successfully" });
 };
 
-
-// share Task - share with anotehr user by email or Id
-import User from "../models/User.js";
-
+// Share a task
 export const shareTask = async (req, res) => {
   const task = await Task.findById(req.params.id);
 
@@ -63,7 +74,6 @@ export const shareTask = async (req, res) => {
   }
 
   const { email } = req.body;
-
   const userToShare = await User.findOne({ email });
 
   if (!userToShare) {
@@ -74,6 +84,11 @@ export const shareTask = async (req, res) => {
     task.sharedWith.push(userToShare._id);
     await task.save();
   }
+
+  io.emit("task:shared", {
+    task,
+    sharedWith: userToShare.email
+  }); // 🔔 Notify all clients
 
   res.json({ message: "Task shared successfully", task });
 };
