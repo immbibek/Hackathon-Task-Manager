@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5000"); // Your backend URL
+const socket = io("https://taskmanager-backend-uuo3.onrender.com"); // Your backend URL
 
 export const useWebSocket = (userId) => {
   const [realtimeUpdates, setRealtimeUpdates] = useState([]);
