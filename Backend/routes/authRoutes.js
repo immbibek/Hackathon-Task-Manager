@@ -19,7 +19,7 @@ router.get("/google/callback",
     });
 
     // Send token to frontend (for simplicity: send in query param or JSON)
-    res.redirect(`http://localhost:3000/oauth-success?token=${token}`);
+    res.redirect(`http://localhost:5173/oauth-success?token=${token}`);
   }
 );
 
