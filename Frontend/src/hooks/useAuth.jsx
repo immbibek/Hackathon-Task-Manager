@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   //  backend base URL - adjust  backend
-  const API_BASE_URL = "http://localhost:5000"; // Your backend runs on port 5000
+  const API_BASE_URL = "https://taskmanager-backend-uuo3.onrender.com"; // Your backend runs on port 5000
 
   // Debug: Log the URL being called
   console.log("Auth URL will be:", `${API_BASE_URL}/auth/google`);
