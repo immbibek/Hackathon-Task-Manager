@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Your backend base URL - adjust this to match your backend
+  //  backend base URL - adjust  backend
   const API_BASE_URL = "http://localhost:5000"; // Your backend runs on port 5000
 
   // Debug: Log the URL being called
